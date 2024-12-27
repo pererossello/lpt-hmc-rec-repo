@@ -3,7 +3,6 @@ import sys
 import numpy as np
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from recs.utils import *
 from recs.main_root import HMCRootSampler
 from recs.hmc_config import HMCRootConfig
 from recs.hmc_aux_config import HMCAuxConfig
