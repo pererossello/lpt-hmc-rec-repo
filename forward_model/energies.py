@@ -18,6 +18,21 @@ def nll(q, n_tr_ref, forward_model, epsilon=1e-10):
     return nll
 
 
+def get_nlp(IC_KIND, L, INV_L3, inv_pow_spec):
+    if IC_KIND in ["U", "FSK_U"]:
+        nlp = nlp_u
+    elif IC_KIND in ["DELTA"]:
+        nlp = partial(nlp_delta, L=L, INV_L3=INV_L3, inv_pow_spec=inv_pow_spec)
+    return nlp
+
+def get_kinetic(IC_KIND, L, INV_L3, pow_spec):
+    if IC_KIND in ["U", "FSK_U"]:
+        kinetic = kinetic_u
+    elif IC_KIND in ["DELTA"]:
+        kinetic = partial(kinetic_delta, L=L, INV_L3=INV_L3, pow_spec=pow_spec)
+    return kinetic
+
+
 #####
 def nlp_u(q):
     return 0.5 * jnp.sum(jnp.abs(q) ** 2)

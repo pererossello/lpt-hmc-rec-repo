@@ -161,12 +161,15 @@ class IdxClass:
             f"EXPECTED_TIME_LEFT: {self.get_time_str(ette)}"  # expected time to end
         )
 
-    def print_hmc(self, ham, delta_h, alpha, accept, acc_rate, lf_step):
-        print(f"H: {ham:04e} | " f"DH: {delta_h:04e} | " f"LF_STEP: {lf_step:04e} | ")
+    def print_hmc(self, ham, delta_h, target_energy, accept, acc_rate, lf_step):
+
+        dh = ham-target_energy
+
+        print(f"H: {ham:04e} | " f"DH: {delta_h:04e} | " f"H-H*: {dh:04e} | ")
         print(
-            f"ACC_RAT: {acc_rate:03f} | " f"ACC: {accept} | " f"ALPH: {alpha:0.2e} | "
+            f"ACC_RAT: {acc_rate:03f} | " f"ACC: {accept} | " f"LF_STEP: {lf_step:04e} | "
         )
-        print(f"T: {(self.temperature[self.epoch_idx])**(1/3):0.2f}^3")
+        print(f"T: {(self.temperature[self.epoch_idx])**(1/3):0.1f}^3")
 
         for i in range(self.epoch_idx+1):
             print(f"ACC_RAT_{i}: {self.acc_ratio_dic[self.chain_idx][i]:0.3f} |", end=' ')
