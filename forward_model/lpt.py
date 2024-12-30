@@ -189,35 +189,39 @@ def forward_alpt(
 
     if PARTICLE_RIDGE:
         k = get_k(N, L)
-        # sigma = 0.3
-        # u = (k - K_TH_PR) / (jnp.sqrt(2) * sigma)
-        # filt_k = jax.lax.erfc(u)*0.5
+        sigma = 0.05
+        u = (k - K_TH_PR) / (jnp.sqrt(2) * sigma)
+        filt_k = jax.lax.erfc(u)*0.5
 
-        one_over_var_k = K_TH_PR**2
-        filt_k = symmetric_gaussian_nonorm(k_sq, one_over_var_k)
+        # one_over_var_k = K_TH_PR**2
+        # filt_k = symmetric_gaussian_nonorm(k_sq, one_over_var_k)
 
-        # delta *= D_PR
+        delta *= D_PR
+        delta = jnp.array(delta, dtype=complex)
 
-        # threshold = 3/2
+        # threshold = 3 / 2
         # transition_width = 0.25
         # smooth_factor = jax.nn.sigmoid((threshold - delta) / transition_width)
         # smooth_value = jnp.log1p(jnp.exp(1 - 2 / 3 * delta))
-        # div_psi = 3*smooth_factor * jnp.sqrt(smooth_value)-3
-        # div_psi *= -1
+        # div_psi = 3 * smooth_factor * jnp.sqrt(smooth_value) - 3
+        div_psi = 3 * jnp.real(1-2/3 * delta) - 3
+        div_psi *= 1
 
-        delta_hat = my_fft(delta, L)
-
-        delta_hat_residual = (1 - filt_k) * delta_hat
+        div_psi_hat = my_fft(div_psi, L)
+        div_psi_hat_residual = (1 - filt_k) * div_psi_hat
 
         one_over_k_sq = jnp.where(k > 0, 1 / k**2, 0.0)
-        phi_residual_hat = -delta_hat_residual * one_over_k_sq
+        phi_residual_hat = -div_psi_hat_residual * one_over_k_sq
+
+        phi_hat = -div_psi_hat * one_over_k_sq
+
         psi_res_x_hat, psi_res_y_hat, psi_res_z_hat = get_psi_lpt1(
-            phi_residual_hat, N, L
+            -phi_hat, N, L
         )
 
-        psi_x_hat += psi_res_x_hat * D_PR
-        psi_y_hat += psi_res_y_hat * D_PR
-        psi_z_hat += psi_res_z_hat * D_PR
+        psi_x_hat += psi_res_x_hat
+        psi_y_hat += psi_res_y_hat
+        psi_z_hat += psi_res_z_hat
 
         delta = from_psi_to_delta(
             psi_x_hat, psi_y_hat, psi_z_hat, N, L, pm_func, psi_has_hat=True

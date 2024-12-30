@@ -95,7 +95,7 @@ def get_projection(array, axis, idx, width):
 
 
 
-def compare_pow_spec(delta_list, L,  n_bins=50, labels=None, title=None, xlog=False, no_labels=False, sphere_only=False, lw=0.5):
+def compare_pow_spec(delta_list, L,  n_bins=50, labels=None, title=None, xlog=False, no_labels=False, sphere_only=False, lw=0.5, x_lim=None):
 
     M = len(delta_list)
 
@@ -136,6 +136,8 @@ def compare_pow_spec(delta_list, L,  n_bins=50, labels=None, title=None, xlog=Fa
     axs[0].set_yscale('log')
 
     axs[2].set_ylim(-0.2, 1.1)
+    if x_lim is not None:
+        axs[0].set_xlim()
     #axs[0].set_xscale('log')
 
     if not no_labels:
