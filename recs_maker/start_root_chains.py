@@ -17,13 +17,13 @@ EXP_NAME = "EXP_A"
 DATAPATH = "./forward_model/results/crime_FSK_U_128_500_ALPT_HPL.hdf5"
 fm_config = None  # specified in datapath (inverse crime)
 
-N_CHAINS = 6
-SAMPLES = [500,2500, 250]
-TEMP = [128**3, 128**3, 1]
+N_CHAINS = 3
+SAMPLES = [1500,2500, 1000]
+TEMP = [128**3, 128**3/100, 1]
 
 LF_METHOD = "STANDARD_REV"
-LF_STEPS = [7, 30, 30]
-lf_step_fact = [0.5, 2, 1]
+LF_STEPS = [7, 50, 50]
+lf_step_fact = [0.5, 0.25, 0.25]
 LF_STEP_MIN = 1e-4
 LF_STEP_MAX = 1e-2
 
