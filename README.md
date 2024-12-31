@@ -1,6 +1,28 @@
 # Observacinones
 
-# To DO:
+
+# TODO:
+
+In the test branch. 
+
+properly tree structure sample thing. 
+
+The only thing that characterizes the ground folder is the reference data (which can be inverse crime or not). 
+
+Then I define an experiment (ground). 
+I each Root or branch chain within same ground there is total liberty to specify HMC config as well as the forward model.
+
+I want the possibility to start sampling with a simpler forward model to get close to some good initial conditions. And then refine with mode sophisticated forward models. 
+
+This will take time and very good coding. 
+
+
+
+
+
+
+
+# To DO (old):
 
 In start chain, specify the data_ref path
 also specify the argdic path, 

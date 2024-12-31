@@ -10,7 +10,7 @@ REC_NAME = "128_FSK_U_ALPT_HPL"
 GROUND_NAME = "EXP_A"
 
 DATAPATH = "./forward_model/results/crime_FSK_U_128_500_ALPT_HPL.hdf5"
-fm_config = None  # dic, path to json , or str specifying 'INVERSE_CRIME' which will read from data
+fm_config = None  # list of dic, path to json , or str specifying 'INVERSE_CRIME' which will read from data
 
 
 
