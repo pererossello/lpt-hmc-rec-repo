@@ -26,7 +26,7 @@ from forward_model.energies import nll, get_nlp, get_kinetic
 
 directory = str(Path(__file__).resolve().parent.parent) + "/"
 
-N, L, Z_I, Z_F = 128, 500, 99, 0
+N, L, Z_I, Z_F = 64, 500, 99, 0
 N_TR = 1e7
 SEED_INT = 2
 
@@ -34,14 +34,14 @@ BIAS_MODEL = "POWER_LAW"
 ALPHA = 1.5
 BIAS_PARAMS = {"ALPHA": ALPHA}
 
-BIAS_MODEL = 'HIERARCHICAL_POWER_LAW'
-key_ = jax.random.PRNGKey(1)
-alph_min, alph_max = 1, 2
-ALPHAS = jax.random.uniform(key_, (16,))*(alph_max-alph_min)+alph_min
-BIAS_PARAMS = {"ALPHA": ALPHAS, "LAMBDA_TH": 0.05}
+# BIAS_MODEL = 'HIERARCHICAL_POWER_LAW'
+# key_ = jax.random.PRNGKey(1)
+# alph_min, alph_max = 1, 2
+# ALPHAS = jax.random.uniform(key_, (16,))*(alph_max-alph_min)+alph_min
+# BIAS_PARAMS = {"ALPHA": ALPHAS, "LAMBDA_TH": 0.05}
 
 IC_KIND = "FSK_U"
-LPT_METHOD = "ALPT"
+LPT_METHOD = "LPT1"
 R_S = 5
 argdic = {
     "N": N,
@@ -125,8 +125,8 @@ with h5py.File(savefold + filename, "w") as h5_file:
     header.attrs["DATA_KIND"] = "REF_DATA"
     header.attrs["INVERSE_CRIME"] = jnp.bool(1)
 
-
-    h5_file.attrs["FM_ARGDIC"] = json.dumps(serialize_dic(argdic))
+    fm_config = json.dumps(serialize_dic(argdic))
+    h5_file.attrs["fm_config"] = fm_config
     h5_file.create_dataset("input", data=u)
     h5_file.create_dataset("n_tr", data=n_tr)
     h5_file.create_dataset("n_tr_mean", data=n_tr_mean)

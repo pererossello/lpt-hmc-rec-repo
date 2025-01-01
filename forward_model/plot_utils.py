@@ -137,7 +137,7 @@ def compare_pow_spec(delta_list, L,  n_bins=50, labels=None, title=None, xlog=Fa
 
     axs[2].set_ylim(-0.2, 1.1)
     if x_lim is not None:
-        axs[0].set_xlim()
+        axs[0].set_xlim(x_lim[0], x_lim[1])
     #axs[0].set_xscale('log')
 
     if not no_labels:

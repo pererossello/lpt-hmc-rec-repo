@@ -4,17 +4,22 @@ import numpy as np
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-
-FOLD_PATH = "./the_samples"
-REC_NAME = "128_FSK_U_ALPT_HPL"
-GROUND_NAME = "EXP_A"
-
-DATAPATH = "./forward_model/results/crime_FSK_U_128_500_ALPT_HPL.hdf5"
-fm_config = None  # list of dic, path to json , or str specifying 'INVERSE_CRIME' which will read from data
+from recs.main import HMCSampler
 
 
+BASE_DIR = "./the_samples"
+FOREST_NAME = "128_FSK_U_ALPT_HPL"
+GROVE_NAME = "EXP_A"
+
+DATAPATH = "./forward_model/results/crime_FSK_U_64_500_LPT1_PL.hdf5"
+
+Sampler = HMCSampler(FOREST_NAME, GROVE_NAME, BASE_DIR)
+Sampler.set_data(DATAPATH)
+
+# print(Sampler.DataObj.fm_config)
 
 
+#fm_config = None  # list of dic, path to json , or str specifying 'INVERSE_CRIME' which will read from data
 
 # N_CHAINS = 3
 # SAMPLES = [1500,2500, 1000]
@@ -42,9 +47,7 @@ fm_config = None  # list of dic, path to json , or str specifying 'INVERSE_CRIME
 #     preset="default", save_n_last=100, print_step=5, plot_step=50
 # )
 
-# sampler = HMCRootSampler(
-#     REC_NAME, EXP_NAME, hmc_config, hmc_aux_config, fold_path=FOLD_PATH
-# )
+
 # sampler.set_data(DATAPATH)
 # sampler.set_fm_argdic(fm_config)  # in this case does nothing
 # sampler.set_up_hmc()
