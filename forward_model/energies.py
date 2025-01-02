@@ -79,9 +79,9 @@ def sample_momenta_delta(key, N, L, N3, INV_L3, inv_pow_spec):
     return my_ifft(p, L)
 
 
-def make_is_delta(key, N, L, N3, INV_L3, pow_spec):
+def make_is_delta(key, N, L, pow_spec):
     q = jax.random.normal(key, (N,) * 3)
-    fact = N3 * INV_L3 * 0.5
+    fact = 0.5 * N**3 / L**3
     q = my_fft(q, L) * jnp.sqrt(fact * pow_spec)
     return my_ifft(q, L)
 

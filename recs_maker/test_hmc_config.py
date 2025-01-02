@@ -8,24 +8,23 @@ from recs.main import HMCSampler
 from recs.hmc_config import HMCConfig
 
 
-BASE_DIR = "./the_samples"
-FOREST_NAME = "128_FSK_U_ALPT_HPL"
-GROVE_NAME = "EXP_A"
+config = HMCConfig()
 
-DATAPATH = "./forward_model/results/crime_FSK_U_64_500_LPT1_PL.hdf5"
+print(config.to_dict())
 
-hmc_config_1 = HMCConfig()
-hmc_config_2 = HMCConfig(samples=[10,20])
-hmc_configs = [hmc_config_1, hmc_config_2]
+# BASE_DIR = "./the_samples"
+# FOREST_NAME = "128_FSK_U_ALPT_HPL"
+# GROVE_NAME = "EXP_A"
 
-Sampler = HMCSampler(FOREST_NAME, GROVE_NAME, BASE_DIR)
-Sampler.clear_grove()
+# DATAPATH = "./forward_model/results/crime_FSK_U_64_500_LPT1_PL.hdf5"
 
-Sampler.set_data(DATAPATH)
+# Sampler = HMCSampler(FOREST_NAME, GROVE_NAME, BASE_DIR)
+# Sampler.clear_grove()
 
-Sampler.plant_trees(2, hmc_config_list=hmc_configs)
+# Sampler.set_data(DATAPATH)
+# Sampler.plant_trees(2)
 
-# print(Sampler.trunk_nodes[0].hmc_config)
+
 
 # print(Sampler.ic_kind)
 

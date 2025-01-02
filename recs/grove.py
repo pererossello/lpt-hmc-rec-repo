@@ -1,5 +1,6 @@
 import os
 import json
+import shutil
 
 
 class Grove:
@@ -60,18 +61,24 @@ class Grove:
 
     def add_trunk(self):
         """Add a single trunk to the grove."""
-        self.add_n_trunks(1)
+        return self.add_n_trunks(1)
 
     def add_n_trunks(self, n):
-        """Add 'n' trunks to the grove."""
+        """Add 'n' trunks to the grove and return their paths."""
         n_trunks = len(self.grove.children)
+        new_trunks = []
+
         for _ in range(n):
-            self._add_member([])
+            trunk_node = self._add_member([])  # Get the node after creation
+            new_trunks.append(trunk_node)  # Store the path of the new trunk
+        
         self.save_grove_to_txt()
 
         print(f"Grove has {n_trunks} trunks. Adding {n} more trunks.")
         n_roots = len(self.grove.children)
         print(f"Grove has now {n_roots} trunks.")
+        
+        return new_trunks
         
 
     def add_branch(self, idx_list):
@@ -113,8 +120,7 @@ class Grove:
         # Create the directory on disk
         os.makedirs(member_path, exist_ok=True)
 
-        # Add the member (trunk/branch) to the grove
-        target_node.add_child(next_idx, member_path)
+        return target_node.add_child(next_idx, member_path)   # Return the new member node
 
 
 
@@ -144,6 +150,34 @@ class Grove:
         with open(txt_path, "w") as f:
             f.write(self._get_grove_as_text())
         #print(f"Grove structure saved to {txt_path}")
+
+    """
+    Clear Grove
+    """
+    def clear_grove(self):
+        """Remove all trunks and branches from the grove, prompting the user for confirmation."""
+        confirmation = input(f"Are you sure you want to cut down the grove '{self.grove_name}'? [y/N]: ")
+        
+        if confirmation.lower() != 'y':
+            print("Aborted. Grove structure remains intact.")
+            return False
+        
+        # Iterate over all items in the grove directory and remove subfolders
+        for item in os.listdir(self.grove_dir):
+            item_path = os.path.join(self.grove_dir, item)
+            if os.path.isdir(item_path):  # Only delete directories
+                shutil.rmtree(item_path)
+                print(f"Removed '{item_path}'")
+        
+        # Clear in-memory tree structure
+        self.grove.children.clear()
+        
+        # Update grove structure file
+        self.save_grove_to_txt()
+        print("All trunks and branches have been removed.")
+        
+        return True
+
 
 
 class Node:

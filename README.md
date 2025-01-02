@@ -1,6 +1,11 @@
 # Observacinones
 
 
+
+# TODO NEW:
+
+the reading and saving of teh initial conditions. and so on and so on. 
+
 # TODO:
 
 In the test branch. 
